@@ -1,0 +1,45 @@
+{
+    "name": "sfdx_project_template",
+    "version": "1.0.0",
+    "description": "A SFDC project template for our team.",
+    "main": "index.js",
+    "scripts": {
+        "lint": "npm run lint:lwc && npm run lint:aura",
+        "lint:lwc": "eslint **/lwc/**",
+        "lint:aura": "sfdx force:lightning:lint src/main/default/aura --exit",
+        "prettier": "prettier --write '**/*.{cmp,css,html,js,json,md,yaml,yml,trigger,cls}'",
+        "prettier:verify": "prettier --list-different '**/*.{html,js,json,yaml,yml,md,cmp}'",
+        "test:unit": "lwc-jest",
+        "test:unit:watch": "lwc-jest --watch",
+        "test:unit:debug": "lwc-jest --debug",
+        "test:unit:coverage": "lwc-jest --coverage"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@commitlint/cli": "^8.0.0",
+        "@commitlint/config-conventional": "^8.0.0",
+        "@salesforce/eslint-config-lwc": "^0.4.0",
+        "@salesforce/sfdx-lwc-jest": "^0.6.2",
+        "eslint": "^5.16.0",
+        "husky": "^2.4.1",
+        "lint-staged": "^8.2.0",
+        "prettier": "^1.19.1",
+        "prettier-plugin-apex": "^1.1.0"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged && npm run lint:aura",
+            "commit-msg": "commitlint -e $GIT_PARAMS"
+        }
+    },
+    "lint-staged": {
+        "**/lwc/**": [
+            "eslint"
+        ],
+        "**/*.{html,js,json,yaml,yml,md,cmp,trigger,cls}": [
+            "prettier --write",
+            "git add"
+        ]
+    }
+}
